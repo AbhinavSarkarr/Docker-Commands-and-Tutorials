@@ -1,0 +1,419 @@
+ssh ubuntu@xx.xxx.xxx.xxx
+
+sudo service apache2 stop
+
+sudo service nginx restart
+
+cd /etc/nginx/sites-enabled/
+
+ll
+
+cat default 
+
+cd ~
+
+sudo docker ps
+
+sudo /etc/nginxc
+
+sudo docker ps
+
+sudo docker images
+
+sudo docker stop container
+
+sudo docker stop container
+
+sudo docker images 
+
+sudo dockers rmi container_id
+
+sudo docker ps 
+
+ls 
+
+cd folder
+
+cd folder 
+
+cat Dockrfile 
+
+cd ../
+
+cd folder
+
+cat Dockerfile 
+
+ cd /etc/nginx/sites-enabled
+ 
+ sudo nano default
+ 
+ sudo systemctl 
+ 
+ sudo service nginx status 
+ 
+ 
+ cd ubuntu 
+ cd foldername
+ cd folder name 
+ sudo docker build -t chatbotmain .
+ ls
+ sudo nano requirements.txt 
+ sudo docker buld -t chatbotmIN .
+ CD ../ 
+ cd folder name 
+ 
+ sudo docker buid -t chatbotprocess .
+ 
+ cd ../ 
+ 
+ sudo docker images 
+ 
+ sudo docker run -d -p 8000:8000 chatbotmain 
+ 
+ sudo docker run -d -p 9000:9000 chatbotprocess 
+ 
+ sudo docker ps 
+ 
+ 
+ 
+ 
+ 
+
+
+ 1. Connect to the Server
+ssh ubuntu@
+
+2. Stop Apache2 Service (if running)
+sudo service apache2 stop
+
+3. Restart Nginx Service
+sudo service nginx restart
+
+4. Check Nginx Configuration
+cd /etc/nginx/sites-enabled/
+ll   #lists all the files with detaied info 
+cat default #this displays the comtent of the cat file 
+cd ~ #this command changes the current directory to the home directory 
+
+5. Check Docker Containers and Images
+sudo docker ps #list all the running docker containers (-a: all container, -q: only display numeric ids, -f: filtered o/p based on conditions 
+sudo docker images
+
+6. Remove Unwanted Docker Containers and Images
+sudo docker stop <container_id>  # Repeat for all containers you want to stop
+sudo docker rm <container_id>    # Remove stopped containers
+sudo docker rmi <image_id>       # Remove unwanted images
+
+
+#images are the docker images which are created on local, and are used to build containers using these images. For ex: sudo docker build -t chatbotmain ., here chatbotmain is the docker image present on local, and . means to create the continer using the whole image.
+
+7. Build and Deploy Docker Containers
+--Navigate to the Application Directory
+cd /path/to/your/application  # Change to your application's directory
+--Check Dockerfile
+cat Dockerfile #to watch the file in read only mode 
+--Build Docker Images
+sudo docker build -t chatbotmain .
+sudo docker build -t chatbotprocess .
+--Run Docker Containers
+sudo docker run -d -p 8000:8000 chatbotmain
+sudo docker run -d -p 9000:9000 chatbotprocess
+
+8. Verify Running Containers
+sudo docker ps
+
+9. Configure Nginx for Reverse Proxy
+--Edit Nginx Configuration
+cd /etc/nginx/sites-enabled
+sudo nano default
+--Example Nginx Configuration (adjust as needed)
+server {
+    listen 80;
+
+    server_name your_domain_or_ip;
+
+    location / {
+        proxy_pass http://localhost:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /anotherpath {
+        proxy_pass http://localhost:9000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+10. Test and Restart Nginx
+sudo nginx -t  # Test the configuration
+sudo systemctl restart nginx
+sudo systemctl status nginx
+
+11. Additional Docker Commands (if needed)
+--List all docker containers
+sudo docker ps -a
+--Remove all stopped containers
+sudo docker container prune
+--Remove all unused images
+sudo docker image prune
+
+12. Access the Application
+-- Open your browser and navigate to your domain or IP address to access the deployed application.
+### Notes:
+- Ensure Docker and Nginx are installed and properly configured on your server.
+
+
+-------------------------------------------------------------------------------------------------------
+ 
+ 1. Install Nginx
+sudo apt update
+sudo apt install nginx -y
+
+2. Start and enable Nginx 
+sudo systemctl start nginx
+sudo systemctl enable nginx
+
+3. Check Nginx Status
+sudo systemctl status nginx
+
+4. Basic Nginx Configuration
+--Navigate to the config directory  
+cd /etc/nginx/sites-available/
+--Create a new config file 
+sudo nano my_site
+
+Example config for site (reolace my_domain_or_ip with actual domain or ip)
+server {
+    listen 80;
+    server_name my_domain_or_ip;
+
+    location / {
+        proxy_pass http://localhost:8000;  # or your desired port
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+    
+    #if you have any other server or page provide it another id 
+    location /{name} {
+        proxy_pass http://localhost:8000;  # or your desired port
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+5. Enable the config 
+sudo ln -s /etc/nginx/sites-available/my_site /etc/nginx/sites-enabled/
+
+6, Test the nginx config 
+sudo nginx -t
+
+7. Restart nginx to aplly the changes 
+sudo systemctl restart nginx
+
+8. Setup firewall (optional) 
+sudo ufw allow 'Nginx Full'  #allow http and https through the firewall
+
+9. Access Your Site
+Open your browser and navigate to your domain name or IP address to access your site.
+
+10. Stopping Nginx 
+sudo systemctl stop nginx
+
+11. Restart Nginx 
+sudo systemctl restart nginx
+
+12. Reload Nginx (useful for applying configuration changes without downtime)
+sudo systemctl reload nginx
+
+13. Enable Nginx to start at boot
+sudo systemctl enable nginx
+
+14. Disable Nginx from starting at boot
+sudo systemctl disable nginx
+
+15. Uninstall Nginx 
+sudo apt remove nginx nginx-common -y
+sudo apt purge nginx nginx-common -y
+sudo apt autoremove -y
+
+
+ -----------------------------------------------------------------------------------------------
+ 
+ Step by Step tutorial for deployment 
+ 
+Step 1: Connect to Your Server
+
+1. Open your terminal or command prompt.
+
+2. Connect to your server using SSH:
+	ssh ubuntu@
+
+--------------------------------------------------------------------------------------
+Optional: 
+If you want to clone the entire application from your github then :
+
+1. Navigate to the Directory Where You Want to Clone the Repository:
+	cd /path/to/desired/directory
+
+2. Update Package List and Install Git:
+	sudo apt update
+	sudo apt install git -y
+
+3. Clone your Repository:
+	git clone https://github.com/username/repository.git
+
+4. Navigate to the clone repo: 
+	git clone https://github.com/username/repository.git
+
+5. Then follow the below process for creating the images if you have already not created one.. then create requirement files and provide all the necessary envs into that image then buld the container. 
+The Docker image may look like:
+
+# 
+FROM python:3.9
+
+# 
+WORKDIR /app
+
+COPY . /app
+
+
+# 
+RUN pip install --no-cache-dir --upgrade -r requirements.txt
+
+ENV MONGO_URI=mongodb+srv://jellyfish:jelly1234@cluster0.lrqlckt.mongodb.net/
+ENV OPENAI_API_KEY=sk-proj-4KvmEIU2qTT9LCcG8VHFT3BlbkFJwz6Jum3cwZaGq4PxBXVG
+ENV GROQ_API_KEY=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
+ENV LANGCHAIN_API_KEY=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
+ENV REDIS_URL=redis://localhost:6379/0
+ENV PINECONE_API_KEY=3ba6e5b4-aa32-4821-8e0c-e75e6a0e8998
+ENV SENDER="shivam.pandey@jellyfishtechnologies.com"
+ENV PASSWORD="vaee agwd chbh mhzm"
+
+CMD ["uvicorn", "main:app", "--host","0.0.0.0", "--port", "9000"]
+
+
+-------------------------------------------------------------------------------------------------
+
+Step 2: Install and Configure Nginx
+1. Update Package List and Install Nginx:
+	sudo apt update
+	sudo apt install nginx -y
+
+2. Start and Enable Nginx: 
+	sudo systemctl start nginx
+	sudo systemctl enable nginx
+	
+3. Check Nginx Status: 
+	sudo systemctl status nginx
+
+Step 3: Configure Nginx
+
+1. Navigate to the Nginx Configuration Directory:
+	cd /etc/nginx/sites-available/
+
+2. Create a New Configuration File (Replace my_site with your preferred name):
+	sudo nano my_site
+
+3. Add the Following Configuration (Replace my_domain_or_ip and ports as needed):
+	server {
+    listen 80; #ells Nginx to listen for HTTP reqs on port 80
+    server_name my_domain_or_ip; #defines the domain or ip adress this confiug will respond to 
+ 
+    location / {  #define how Nginx should handle requests based on the URL path.
+        proxy_pass http://localhost:8000; #Forwards incoming requests to the application running on localhost (the same server) at port 8000.
+        proxy_set_header Host $host; #: Forward the original request headers to the proxied application. This helps preserve information about the original request:
+        proxy_set_header X-Real-IP $remote_addr; #Passes the IP address of the client making the request.
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    location /anotherpath { #define how Nginx should handle requests based on the URL path.
+        proxy_pass http://localhost:9000; 3orwards these requests to the application running on localhost at port 9000.
+        proxy_set_header Host $host; # Same as above, to forward the original request headers to the proxied application.
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+
+#Summary
+#Requests to http://my_domain_or_ip/ will be forwarded to http://localhost:8000.
+#Requests to http://my_domain_or_ip/anotherpath will be forwarded to http://localhost:9000.
+
+4. Enable the Configuration:
+	sudo ln -s /etc/nginx/sites-available/my_site /etc/nginx/sites-enabled/
+
+5. Test the Nginc Configuration: 
+	sudo nginx -t 
+
+6. Restart Nginx to apply changes: 
+	sudo systemctl restart nginx
+
+Step 4: Install Docker
+
+1. Update Package List and Install Docker:
+	sudo apt update
+	sudo apt install docker.io -y
+	
+2. Start and Enable Docker:
+	sudo systemctl start docker
+	sudo systemctl enable docker
+	
+3. Check Docker status: 
+	sudo systemctl status docker
+
+Step 5: Build and Deploy Docker Containers
+
+1. Navigate to Your Application Directory:
+	cd /path/to/your/application
+
+2. Create or Check Your Dockerfile:
+	cat Dockerfile
+
+3. Build Docker Images:
+	sudo docker build -t chatbotmain .
+	sudo docker build -t chatbotprocess .
+
+4. Rum Docker Images:
+	sudo docker run -d -p 8000:8000 chatbotmain
+	sudo docker run -d -p 9000:9000 chatbotprocess
+	
+5. Verify Running Containers: 
+	sudo docker ps
+
+Step 6: Clean Up Docker (Optional)
+
+1. List all the docker containers:
+	sudo docker ps -a
+
+2. Remove all stopped containers:
+	sudo docker container prune
+
+3. Remove all Unused Images:
+	sudo docker image prune
+
+Step 7: Access Your Application
+Open your web browser.
+Navigate to your domain or IP address to access the deployed application.
+
+
+
+#Touch command is used to create an empty file if there is no file existing 
+
+
+
+
+ 
+ 
+ 
+ 
